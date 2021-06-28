@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure.Identity;
 
 namespace shoestore_listing_aspnetcore
 {
@@ -20,7 +21,21 @@ namespace shoestore_listing_aspnetcore
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        var settings = config.Build();
+
+                        config.AddAzureAppConfiguration(options =>
+                        {
+                            options.Connect(settings["ConnectionStrings:AppConfig"])
+                                    .ConfigureKeyVault(kv =>
+                                    {
+                                        kv.SetCredential(new DefaultAzureCredential());
+                                    });
+                        });
+                    })
+                    .UseStartup<Startup>();
                 });
     }
 }
