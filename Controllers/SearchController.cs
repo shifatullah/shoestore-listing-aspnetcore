@@ -11,12 +11,12 @@ namespace shoestore_listing_aspnetcore.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ListingController : ControllerBase
+    public class SearchController : ControllerBase
     {
-        private readonly ILogger<ListingController> _logger;
+        private readonly ILogger<SearchController> _logger;
         private readonly ISearchService _searchService;
 
-        public ListingController(ILogger<ListingController> logger, ISearchService searchService)
+        public SearchController(ILogger<SearchController> logger, ISearchService searchService)
         {
             _logger = logger;
             _searchService = searchService;
